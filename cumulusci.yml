@@ -43,6 +43,10 @@ tasks:
         options:
             count: 100
 
+    data_dict:
+        description: Generate the Data Dictionary
+        class_path: tasks.datadict.GenerateDataDictTask
+
     deploy_dev_config:
         description: Deploys the post install configuration for an unmanaged DE org
         class_path: cumulusci.tasks.salesforce.Deploy
