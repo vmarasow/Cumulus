@@ -37,12 +37,6 @@ tasks:
             dir: browser_tests
             subfolder: NPSP-Browser-Tests-master
 
-    mock_data:
-        description: Load Mockaroo Data
-        class_path: tasks.superdata.SuperData
-        options:
-            count: 100
-
     data_dict:
         description: Generate the Data Dictionary
         class_path: tasks.datadict.GenerateDataDictTask
@@ -227,8 +221,10 @@ flows:
     test_data_dev_org:
         description: 'WARNING: This flow deletes all data first, then loads the complete test data set based on 100 Contacts into the target org.'
         tasks:
+            1:
+                task: test_data_delete
             2:
-                task: mock_data
+                task: test_data_dev_org
 
     test_data_1k:
         description: 'WARNING: This flow deletes all data first, then loads the complete test data set based on 1,024 Contacts into the target org.'
@@ -237,6 +233,19 @@ flows:
                 task: test_data_delete
             2:
                 task: test_data_1k
+
+    data_dict:
+        description: generate a managed package data dictionary
+        tasks:
+            1:
+                task: retrieve_unpackaged
+                options: 
+                    package_xml: lib/admin_profile_managed.xml
+                    path: out
+            2:
+                task: data_dict
+                options:
+                    path: out
 
 orgs:
     scratch:
